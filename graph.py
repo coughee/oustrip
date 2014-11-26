@@ -29,7 +29,7 @@ class graph:
     def startCrawl(self):
         self.visitUrl(self.origin)
         
-url = 'http://physics.open.ac.uk/~jphague/'
+url = 'http://www.open.ac.uk/science/physical-science/'
 f = graph(url)
 f.startCrawl()
 print f.urls

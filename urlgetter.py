@@ -17,6 +17,8 @@ class urlParser(HTMLParser):
 
 def getData(url):
     data = urllib.urlopen(url)
+    print data.getcode()
+    print url
     return data
 
 def findUrlsInLine(line):
@@ -40,7 +42,7 @@ def getUrls(url,origin):
     urls = []
     prefix = url
     for lines in urlList:
-        if lines is not None and lines.endswith('html'):
+        if lines is not None:
             if lines.startswith(origin):
                 urls.append(lines)
             elif not lines.startswith('http://'):
