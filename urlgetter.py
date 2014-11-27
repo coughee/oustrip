@@ -16,14 +16,18 @@ class urlParser(HTMLParser):
             self.output_list.append(dict(attrs).get('href'))
 
 def getData(url):
-    data = urllib.urlopen(url)
-    print data.getcode()
-    print url
+    try:
+        data = urllib.urlopen(url)
+    except UnicodeDecodeError:
+        data = []
     return data
 
 def findUrlsInLine(line):
     p = urlParser()
-    p.feed(line)
+    try:
+        p.feed(line)
+    except:
+        return []
     return p.output_list
 
 def findUrls(url):
@@ -41,14 +45,28 @@ def getUrls(url,origin):
     urlList = findUrls(url)
     urls = []
     prefix = url
+    urlList = [x for x in urlList if x is not None]
     for lines in urlList:
-        if lines is not None:
-            if lines.startswith(origin):
-                urls.append(lines)
-            elif not lines.startswith('http://'):
-                urls.append(origin + lines)
+        u = urlChecker(lines,origin)
+        if u is not None:
+            urls.append(u)
     return urls
 
+def urlChecker(url,origin):
+    if url.endswith('.pdf'):
+        return None
+    if url.endswith('.doc') or url.endswith('.docx'):
+        return None
+    if url.startswith(origin):
+        return url
+    if url.startswith('http://'):
+        return None
+    if url.startswith('https://'):
+        return None
+    if url.startswith('/'):
+        return origin + url[1:]
+    
+            
 
 
 

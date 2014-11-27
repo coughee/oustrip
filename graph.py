@@ -19,17 +19,24 @@ class graph:
 
     def visitUrl(self,url):
         children = ug.getUrls(url,self.origin)
+
         if not url in self.urls:
             self.addUrl(url,children)
-
-        for curl in children:
-            if not curl in self.urls:
-                self.visitUrl(curl)
-
+            
+        uniques = [curl for curl in children if curl not in self.urls]
+        
+        for curl in uniques:
+            self.visitUrl(curl)
+        print len(self.urls)
+        
     def startCrawl(self):
         self.visitUrl(self.origin)
+
+    def printUrls(self,urllist):
+        for url in urllist:
+            print url
         
-url = 'http://www.open.ac.uk/science/physical-science/'
+url = 'http://www.open.ac.uk/'
 f = graph(url)
 f.startCrawl()
 print f.urls
