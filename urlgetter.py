@@ -65,6 +65,7 @@ def urlChecker(url,origin):
         return None
     if url.startswith('/'):
         return origin + url[1:]
+    return origin + url
     
             
 

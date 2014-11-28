@@ -12,6 +12,7 @@ class graph:
         self.nodes = []
         self.urls = []
         self.origin = url
+        self.currentUrls = []
 
     def addUrl(self,url,children):
         self.urls.append(url)
@@ -22,24 +23,27 @@ class graph:
 
         if not url in self.urls:
             self.addUrl(url,children)
+        else:
+            return #return if the url has already been visited
             
-        uniques = [curl for curl in children if curl not in self.urls]
-        
-        for curl in uniques:
-            self.visitUrl(curl)
-        print len(self.urls)
+        uniques = [curl for curl in children if curl not in self.urls and curl not in self.currentUrls]
+        self.currentUrls.extend(uniques)
+
         
     def startCrawl(self):
-        self.visitUrl(self.origin)
+        self.currentUrls.append(self.origin)
+        for urls in self.currentUrls:
+            self.visitUrl(urls)
+
 
     def printUrls(self,urllist):
         for url in urllist:
             print url
         
-url = 'http://www.open.ac.uk/'
+url = 'http://physics.open.ac.uk/~jphague/'
 f = graph(url)
 f.startCrawl()
-print f.urls
+f.printUrls(f.urls)
         
 
         
