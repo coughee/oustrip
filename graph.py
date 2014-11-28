@@ -44,6 +44,7 @@ class graph:
             self.visitUrl(urls)
 
 
+
     def printUrls(self,urllist):
         for url in urllist:
             print url

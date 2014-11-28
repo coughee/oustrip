@@ -32,13 +32,8 @@ def findUrlsInLine(line):
 
 def findUrls(url):
     pageData = getData(url)
-    urlList = []
-    for lines in pageData.readlines():
-        lineUrls = findUrlsInLine(lines)
-        if(lineUrls is not []):
-            for url in lineUrls:
-                urlList.append(url)
-
+    lineUrls = [findUrlsInLine(line) for line in pageData.readlines()]
+    urlList = [item for sublist in lineUrls for item in sublist]
     return urlList
 
 def getUrls(url,origin):
@@ -46,10 +41,7 @@ def getUrls(url,origin):
     urls = []
     prefix = url
     urlList = [x for x in urlList if x is not None]
-    for lines in urlList:
-        u = urlChecker(lines,origin)
-        if u is not None:
-            urls.append(u)
+    urls = [urlChecker(x,origin) for x in urlList if urlChecker(x,origin) is not None] 
     return urls
 
 def urlChecker(url,origin):
