@@ -32,8 +32,13 @@ def findUrlsInLine(line):
 
 def findUrls(url):
     pageData = getData(url)
+    
+    #Extract urls
     lineUrls = [findUrlsInLine(line) for line in pageData.readlines()]
+
+    #Flatten lists
     urlList = [item for sublist in lineUrls for item in sublist if item is not None]
+    
     return urlList
 
 def getUrls(url,origin):
