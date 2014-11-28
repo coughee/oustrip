@@ -19,14 +19,22 @@ class graph:
         self.nodes.append(node(url,children))
 
     def visitUrl(self,url):
-        children = ug.getUrls(url,self.origin)
+
 
         if not url in self.urls:
+            children = ug.getUrls(url,self.origin)
             self.addUrl(url,children)
         else:
-            return #return if the url has already been visited
-            
-        uniques = [curl for curl in children if curl not in self.urls and curl not in self.currentUrls]
+            #return if the url has already been visited
+            return
+        
+        #remove duplicates
+        uniques = [curl for curl in children if curl not in self.urls]
+
+        #remove urls that are already queued to be visited
+        uniques = [curl for curl in uniques if curl not in self.currentUrls]
+
+        #Add the new urls.
         self.currentUrls.extend(uniques)
 
         
